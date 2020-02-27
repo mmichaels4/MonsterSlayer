@@ -43,10 +43,10 @@
     </section>
     <section class="row log" v-if="gameInProgress">
         <div class="small-12 columns">
-            <ul>
-                <li id="player-turn" v-for="(turn, index) in logOfTurns">
+            <ul v-for="(round, index) in logOfTurns">
+                <li v-for="(turn, subindex) in round" :class="playerOrMonsterClass(subindex)">
                     {{ turn }}
-                </li>
+                </li>               
             </ul>
         </div>
     </section>

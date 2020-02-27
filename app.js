@@ -39,8 +39,8 @@ new Vue({
             this.yourHealth -= monsterAttackStrength
             this.monsterHealth -= yourAttackStrength
 
-            this.logOfTurns.unshift('Player hits monster for ' + yourAttackStrength)
-            this.logOfTurns.unshift('Monster hits player for ' + monsterAttackStrength)
+            this.logOfTurns.unshift(['Player hits monster for ' + yourAttackStrength,
+                'Monster hits player for ' + monsterAttackStrength])
         },
 
         specialAttack() {
@@ -50,8 +50,8 @@ new Vue({
             this.yourHealth -= monsterAttackStrength
             this.monsterHealth -= yourAttackStrength
 
-            this.logOfTurns.unshift('Player hits monster for ' + yourAttackStrength)
-            this.logOfTurns.unshift('Monster hits player for ' + monsterAttackStrength)
+            this.logOfTurns.unshift(['Player hits monster for ' + yourAttackStrength,
+                'Monster hits player for ' + monsterAttackStrength])
         },
 
         heal() {
@@ -60,14 +60,23 @@ new Vue({
             
             this.yourHealth += (yourHealAmount - monsterAttackStrength)
 
-            this.logOfTurns.unshift('Player heals for ' + yourHealAmount)
-            this.logOfTurns.unshift('Monster hits player for ' + monsterAttackStrength)
+            this.logOfTurns.unshift(['Player heals for ' + yourHealAmount,
+                'Monster hits player for ' + monsterAttackStrength])
 
         },
 
         giveUpGame() {
             this.gameInProgress = false
-        }
+            this.logOfTurns = []
+        },
+
+        playerOrMonsterClass(index) {
+            if (index === 0) {
+              return 'player-turn'
+            } else {
+              return 'monster-turn'
+            }
+          }
 
     },
 
