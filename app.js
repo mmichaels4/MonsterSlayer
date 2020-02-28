@@ -41,12 +41,19 @@ new Vue({
         heal() {
             let yourHealAmount = Math.ceil(Math.random() * 6)
             let monsterAttackStrength = Math.ceil(Math.random() * 2)
-            
-            this.playerHealth += yourHealAmount - monsterAttackStrength
 
-            this.logOfTurns.unshift(['Player heals for ' + yourHealAmount,
+            if (this.playerHealth + yourHealAmount - monsterAttackStrength > 100) {
+                this.logOfTurns.unshift(['Player heals for ' + 
+                (100 - this.playerHealth + monsterAttackStrength),
                 'Monster hits player for ' + monsterAttackStrength])
+                
+                this.playerHealth = 100
+            } else {
+                this.playerHealth += yourHealAmount - monsterAttackStrength
 
+                this.logOfTurns.unshift(['Player heals for ' + yourHealAmount,
+                'Monster hits player for ' + monsterAttackStrength])
+            }
         },
 
         updateHealth(playerAttackStrength, monsterAttackStrength) {
