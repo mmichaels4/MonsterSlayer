@@ -3,40 +3,26 @@ new Vue({
 
     data: {
         gameInProgress: false,
-        yourHealth: 100,
+        playerHealth: 100,
         monsterHealth: 100,
-        logOfTurns: []
-    },
-
-    computed: {
-        yourHealthbar() {
-            return {
-                width: this.yourHealth+'%',
-                height: 40+'px',
-                backgceilColor: '#eee',
-                margin: 'auto',
-                transition: 'width '+ 500 + 'ms'
-            }
-        },
-
-        monsterHealthbar() {
-
-        }
-
+        logOfTurns: [],
+        winnerExists: false
     },
 
     methods: {
         startGame() {
             this.gameInProgress = true
-            this.yourHealth = 100
+            this.playerHealth = 100
             this.monsterHealth = 100
+            this.logOfTurns= []
+            this.winnerExists = false
         },
 
         attack() {
             let yourAttackStrength = Math.ceil(Math.random() * 10)
             let monsterAttackStrength = Math.ceil(Math.random() * 8)
             
-            this.yourHealth -= monsterAttackStrength
+            this.playerHealth -= monsterAttackStrength
             this.monsterHealth -= yourAttackStrength
 
             this.logOfTurns.unshift(['Player hits monster for ' + yourAttackStrength,
@@ -47,7 +33,7 @@ new Vue({
             let yourAttackStrength = Math.ceil(Math.random() * 10)
             let monsterAttackStrength = Math.ceil(Math.random() * 6)
             
-            this.yourHealth -= monsterAttackStrength
+            this.playerHealth -= monsterAttackStrength
             this.monsterHealth -= yourAttackStrength
 
             this.logOfTurns.unshift(['Player hits monster for ' + yourAttackStrength,
@@ -58,7 +44,7 @@ new Vue({
             let yourHealAmount = Math.ceil(Math.random() * 6)
             let monsterAttackStrength = Math.ceil(Math.random() * 2)
             
-            this.yourHealth += (yourHealAmount - monsterAttackStrength)
+            this.playerHealth += (yourHealAmount - monsterAttackStrength)
 
             this.logOfTurns.unshift(['Player heals for ' + yourHealAmount,
                 'Monster hits player for ' + monsterAttackStrength])
@@ -67,7 +53,6 @@ new Vue({
 
         giveUpGame() {
             this.gameInProgress = false
-            this.logOfTurns = []
         },
 
         playerOrMonsterClass(index) {
@@ -76,11 +61,15 @@ new Vue({
             } else {
               return 'monster-turn'
             }
-          }
-
+        },
     },
 
     watch: {
-
+        playerHealth() {
+            if (this.playerHealth <= 0 || this.monsterHealth <= 0) {
+                this.winnerExists = true
+                this.gameInProgress = false
+            } 
+        }
     }
 })
