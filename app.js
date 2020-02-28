@@ -19,24 +19,22 @@ new Vue({
         },
 
         attack() {
-            let yourAttackStrength = Math.ceil(Math.random() * 10)
+            let playerAttackStrength = Math.ceil(Math.random() * 10)
             let monsterAttackStrength = Math.ceil(Math.random() * 8)
             
-            this.playerHealth -= monsterAttackStrength
-            this.monsterHealth -= yourAttackStrength
+            this.updateHealth(playerAttackStrength, monsterAttackStrength)
 
-            this.logOfTurns.unshift(['Player hits monster for ' + yourAttackStrength,
+            this.logOfTurns.unshift(['Player hits monster for ' + playerAttackStrength,
                 'Monster hits player for ' + monsterAttackStrength])
         },
 
         specialAttack() {
-            let yourAttackStrength = Math.ceil(Math.random() * 10)
+            let playerAttackStrength = Math.ceil(Math.random() * 10)
             let monsterAttackStrength = Math.ceil(Math.random() * 6)
             
-            this.playerHealth -= monsterAttackStrength
-            this.monsterHealth -= yourAttackStrength
+            this.updateHealth(playerAttackStrength, monsterAttackStrength)
 
-            this.logOfTurns.unshift(['Player hits monster for ' + yourAttackStrength,
+            this.logOfTurns.unshift(['Player hits monster for ' + playerAttackStrength,
                 'Monster hits player for ' + monsterAttackStrength])
         },
 
@@ -44,11 +42,16 @@ new Vue({
             let yourHealAmount = Math.ceil(Math.random() * 6)
             let monsterAttackStrength = Math.ceil(Math.random() * 2)
             
-            this.playerHealth += (yourHealAmount - monsterAttackStrength)
+            this.playerHealth += yourHealAmount - monsterAttackStrength
 
             this.logOfTurns.unshift(['Player heals for ' + yourHealAmount,
                 'Monster hits player for ' + monsterAttackStrength])
 
+        },
+
+        updateHealth(playerAttackStrength, monsterAttackStrength) {
+            this.playerHealth -= monsterAttackStrength
+            this.monsterHealth -= playerAttackStrength
         },
 
         giveUpGame() {
